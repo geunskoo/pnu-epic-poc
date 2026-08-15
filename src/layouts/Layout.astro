@@ -1,0 +1,64 @@
+---
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`.replace(/\/+/g, '/')} />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<ClientRouter />
+	</head>
+	<body>
+		<nav>
+			<a href={import.meta.env.BASE_URL}>홈</a> ·
+			<a href={`${import.meta.env.BASE_URL}/publications/`.replace(/\/+/g, '/')}>논문 목록</a>
+		</nav>
+		<slot />
+		<script>
+			import { gsap } from 'gsap';
+			import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+			gsap.registerPlugin(ScrollTrigger);
+
+			function setupReveals() {
+				const targets = gsap.utils.toArray<HTMLElement>('[data-reveal]');
+				targets.forEach((el) => {
+					gsap.fromTo(
+						el,
+						{ autoAlpha: 0, y: 40 },
+						{
+							autoAlpha: 1,
+							y: 0,
+							duration: 0.6,
+							ease: 'power2.out',
+							scrollTrigger: {
+								trigger: el,
+								start: 'top 85%',
+							},
+						}
+					);
+				});
+			}
+
+			// astro:page-load fires on first load AND after every client-side
+			// navigation via ClientRouter — this is where new reveals must be (re)armed.
+			document.addEventListener('astro:page-load', setupReveals);
+
+			// astro:before-swap fires right before the outgoing page is torn down —
+			// without this, ScrollTrigger instances from the previous page leak and
+			// accumulate on every navigation (검증 항목 6).
+			document.addEventListener('astro:before-swap', () => {
+				ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+			});
+		</script>
+	</body>
+</html>
