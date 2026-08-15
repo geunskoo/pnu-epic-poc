@@ -41,21 +41,50 @@ function renderCallbackPage({ success, token, error }) {
 		? { token, provider: 'github' }
 		: { provider: 'github', message: error || 'OAuth 인증 실패' };
 	const messageType = success ? 'success' : 'error';
+	const payloadJson = JSON.stringify(JSON.stringify(payload)); // safe to embed as a JS string literal
 
 	return `<!doctype html>
 <html>
-<body>
+<body style="font: 13px monospace; padding: 1.5rem; color: #333;">
+<p id="status">처리 중...</p>
 <script>
 (function () {
+	var statusEl = document.getElementById('status');
+	function setStatus(text) {
+		statusEl.textContent = text;
+		console.log('[oauth-callback]', text);
+	}
+
+	if (!window.opener) {
+		setStatus('오류: window.opener가 없습니다 (팝업이 아니라 직접 접속한 경우 정상입니다). 이 창을 닫고 다시 시도해주세요.');
+		return;
+	}
+
+	var messageType = ${JSON.stringify(messageType)};
+	var payloadStr = ${payloadJson};
+	var closed = false;
+
 	function receiveMessage(message) {
-		window.opener.postMessage(
-			'authorization:github:${messageType}:${JSON.stringify(payload)}',
-			message.origin
-		);
+		// Ignore unrelated message events (extensions, injected scripts, etc.) —
+		// only the opener's handshake reply matches this exact payload.
+		if (message.data !== 'authorizing:github') {
+			setStatus('무관한 message 이벤트 무시함 (from ' + message.origin + ', data=' + JSON.stringify(message.data) + ')');
+			return;
+		}
+		setStatus('opener 핸드셰이크 응답 확인(from ' + message.origin + '), 토큰 전달함. 디버깅을 위해 창은 자동으로 닫지 않습니다 — 직접 닫아주세요.');
+		window.opener.postMessage('authorization:github:' + messageType + ':' + payloadStr, message.origin);
 		window.removeEventListener('message', receiveMessage, false);
+		closed = true;
 	}
 	window.addEventListener('message', receiveMessage, false);
+	setStatus('opener에 handshake 전송함, 응답 대기 중...');
 	window.opener.postMessage('authorizing:github', '*');
+
+	setTimeout(function () {
+		if (!closed) {
+			setStatus('5초 넘게 opener 응답이 없습니다. Decap CMS 창이 이 팝업의 opener가 맞는지, 콘솔에 에러가 없는지 확인해주세요. (messageType=' + messageType + ')');
+		}
+	}, 5000);
 })();
 </script>
 </body>
