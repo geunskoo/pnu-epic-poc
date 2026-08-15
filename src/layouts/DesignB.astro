@@ -1,0 +1,76 @@
+---
+import '@fontsource/song-myung';
+import 'pretendard/dist/web/variable/pretendardvariable.css';
+import '../styles/design-b-tokens.css';
+
+interface Props {
+	title: string;
+}
+const { title } = Astro.props;
+---
+
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>{title} — Design B</title>
+	</head>
+	<body>
+		<header
+			style="border-bottom: 1px solid var(--color-border); padding: 1.5rem 2rem;"
+		>
+			<nav style="display:flex; gap:2rem; max-width: 960px; margin: 0 auto; align-items: baseline;">
+				<a href="/pnu-epic-poc/design-b/" style="font-family: var(--font-heading); font-size: 1.3rem; text-decoration: none; color: var(--color-primary);">EPIC Lab</a>
+				<a href="/pnu-epic-poc/design-b/publications/" style="text-decoration: none; color: var(--color-ink-muted); font-size: 0.9rem;">논문 목록</a>
+				<span style="margin-left:auto; font-size: 0.8rem; color: var(--color-accent); font-weight: 600;">Design B — 개성 가미</span>
+			</nav>
+		</header>
+		<main style="max-width: 960px; margin: 0 auto; padding: 0 2rem;">
+			<slot />
+		</main>
+		<script>
+			import { gsap } from 'gsap';
+			import { ScrollTrigger } from 'gsap/ScrollTrigger';
+			gsap.registerPlugin(ScrollTrigger);
+
+			function setupReveals() {
+				const groups = gsap.utils.toArray<HTMLElement>('[data-reveal-group]');
+				groups.forEach((group) => {
+					const items = group.querySelectorAll('[data-reveal]');
+					gsap.fromTo(
+						items,
+						{ autoAlpha: 0, y: 28, scale: 0.98 },
+						{
+							autoAlpha: 1,
+							y: 0,
+							scale: 1,
+							duration: 0.7,
+							ease: 'back.out(1.4)',
+							stagger: 0.08,
+							scrollTrigger: { trigger: group, start: 'top 85%' },
+						}
+					);
+				});
+
+				gsap.utils.toArray<HTMLElement>('[data-reveal]:not([data-reveal-group] [data-reveal])').forEach((el) => {
+					gsap.fromTo(
+						el,
+						{ autoAlpha: 0, y: 28, scale: 0.98 },
+						{
+							autoAlpha: 1,
+							y: 0,
+							scale: 1,
+							duration: 0.7,
+							ease: 'back.out(1.4)',
+							scrollTrigger: { trigger: el, start: 'top 85%' },
+						}
+					);
+				});
+			}
+			document.addEventListener('astro:page-load', setupReveals);
+			document.addEventListener('astro:before-swap', () => {
+				ScrollTrigger.getAll().forEach((t) => t.kill());
+			});
+		</script>
+	</body>
+</html>

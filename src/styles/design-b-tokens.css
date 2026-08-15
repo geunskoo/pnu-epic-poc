@@ -1,0 +1,53 @@
+/* Design B — 심플·학술적 기반 + 개성 가미 (Song Myung 헤딩으로 "빈티지 활자" 느낌만 취함, 일러스트는 안 씀) */
+:root {
+	--font-heading: 'Song Myung', serif;
+	--font-body: 'Pretendard Variable', sans-serif;
+
+	--color-bg: #fbf6ec;
+	--color-surface: #f3ead9;
+	--color-ink: #2a2117;
+	--color-ink-muted: #6b5f4f;
+	--color-primary: #1f5f5b;
+	--color-accent: #d97b4f;
+	--color-border: #e6d9c2;
+
+	--radius: 10px;
+	--space-section: 6rem;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--color-bg);
+	color: var(--color-ink);
+	font-family: var(--font-body);
+	font-weight: 400;
+	line-height: 1.75;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+	font-family: var(--font-heading);
+	font-weight: 400;
+	letter-spacing: 0;
+	margin: 0;
+	color: var(--color-primary);
+}
+
+a {
+	color: var(--color-accent);
+}
+
+.eyebrow {
+	font-family: var(--font-body);
+	font-size: 0.8rem;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--color-accent);
+	font-weight: 700;
+}

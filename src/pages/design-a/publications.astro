@@ -1,0 +1,36 @@
+---
+import DesignA from '../../layouts/DesignA.astro';
+
+const papers = [
+	{ year: 2026, title: '국내 2형 당뇨병 환자의 SGLT2 억제제 복용과 심혈관계 이상반응: 전국 청구자료 코호트 연구', authors: '김지연, 박서준, 이현우', journal: 'Journal of Controlled Release' },
+	{ year: 2025, title: '전자의무기록 기반 항응고제 처방 패턴 분석: 다기관 후향적 연구', authors: '박서준, 최유진', journal: 'Pharmacoepidemiology and Drug Safety' },
+	{ year: 2025, title: '고령 환자의 다약제 복용과 낙상 위험: 건강보험 청구자료를 이용한 대규모 코호트 연구', authors: '이현우, 김지연, 정다은', journal: 'BMC Geriatrics' },
+	{ year: 2024, title: '실사용 데이터를 이용한 면역항암제의 이상반응 감시 체계 구축', authors: '최유진, 이현우', journal: 'Drug Safety' },
+	{ year: 2023, title: '보건의료 빅데이터 연계를 위한 개인정보 비식별화 방법론 비교 연구', authors: '김지연, 정다은, 박서준', journal: 'Journal of Biomedical Informatics' },
+];
+---
+
+<DesignA title="논문 목록">
+	<section style="padding: 4rem 0 5rem;">
+		<p class="eyebrow" data-reveal>Publications</p>
+		<h1 style="font-size: 2rem; margin-top: 0.75rem;" data-reveal>논문 목록</h1>
+
+		<ul style="list-style: none; padding: 0; margin: 2.5rem 0 0; border-top: 1px solid var(--color-border);">
+			{
+				papers.map((p) => (
+					<li style="padding: 1.5rem 0; border-bottom: 1px solid var(--color-border);" data-reveal>
+						<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;">
+							<h2 style="font-size: 1.05rem; font-weight: 600; font-family: var(--font-body); line-height: 1.5; margin: 0;">
+								{p.title}
+							</h2>
+							<span style="color: var(--color-accent); font-size: 0.85rem; flex-shrink: 0; font-family: var(--font-body);">{p.year}</span>
+						</div>
+						<p style="color: var(--color-ink-muted); font-size: 0.88rem; margin: 0.5rem 0 0;">
+							{p.authors} · <em style="font-style: italic;">{p.journal}</em>
+						</p>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+</DesignA>

@@ -1,0 +1,67 @@
+---
+import DesignB from '../../layouts/DesignB.astro';
+
+const fields = [
+	{ title: '약물역학', en: 'Pharmacoepidemiology', body: '실제 처방·복용 데이터를 기반으로 약물의 효과와 위해를 인구집단 수준에서 분석합니다.' },
+	{ title: '보건의료 빅데이터 분석', en: 'Health Data Science', body: '전자의무기록(EMR), 건강보험 청구자료 등 대규모 보건의료 데이터를 다룹니다.' },
+	{ title: '약물 안전성 평가', en: 'Drug Safety', body: '시판 후 약물의 이상반응·상호작용을 실사용 데이터로 검증합니다.' },
+	{ title: '실사용 데이터 연구', en: 'Real-World Data', body: '임상시험 밖 실제 진료 환경에서의 치료 효과를 규명합니다.' },
+];
+
+const news = [
+	{ date: '2026.07', text: '보건의료 빅데이터 학술대회 우수 포스터상 수상' },
+	{ date: '2026.05', text: '2026학년도 2학기 대학원생 모집 공고' },
+	{ date: '2026.03', text: 'Journal of Controlled Release 논문 게재' },
+];
+---
+
+<DesignB title="EPIC Lab">
+	<section style="padding: 5rem 0 3rem;">
+		<p class="eyebrow" data-reveal>부산대학교 약학대학원</p>
+		<h1 style="font-size: 3rem; margin-top: 0.75rem; line-height: 1.4;" data-reveal>
+			EPIC Lab
+			<br />
+			<span style="font-size: 1.6rem; color: var(--color-ink-muted);">약물역학 · 보건의료 빅데이터 연구실</span>
+		</h1>
+		<p style="max-width: 60ch; color: var(--color-ink-muted); margin-top: 1.5rem; font-size: 1.05rem;" data-reveal>
+			EPIC 연구실은 약물역학과 보건의료 빅데이터를 기반으로, 실제 임상 현장에서 발생하는 문제를
+			데이터로 풀어냅니다. 전자의무기록, 청구 데이터 같은 대규모 보건의료 데이터로 약물의 안전성과
+			치료 효과를 검증합니다.
+		</p>
+	</section>
+
+	<section style="padding: 2rem 0;">
+		<h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">연구 분야</h2>
+		<div data-reveal-group style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+			{
+				fields.map((f) => (
+					<div
+						data-reveal
+						style={`background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.5rem; border-left: 3px solid var(--color-accent);`}
+					>
+						<span style="font-size: 0.72rem; letter-spacing: 0.06em; color: var(--color-accent); font-weight: 600;">{f.en}</span>
+						<h3 style="font-size: 1.1rem; margin: 0.35rem 0 0.6rem;">{f.title}</h3>
+						<p style="color: var(--color-ink-muted); font-size: 0.92rem; margin: 0;">{f.body}</p>
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<section style="padding: 2rem 0 5rem;">
+		<h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">최근 소식</h2>
+		<div data-reveal-group style="display: flex; flex-direction: column; gap: 0.75rem;">
+			{
+				news.map((n) => (
+					<div
+						data-reveal
+						style="display: flex; gap: 1.5rem; align-items: baseline; background: var(--color-surface); border-radius: var(--radius); padding: 1rem 1.25rem; font-size: 0.95rem;"
+					>
+						<span style="color: var(--color-accent); font-weight: 600; flex-shrink: 0; font-size: 0.85rem;">{n.date}</span>
+						<span>{n.text}</span>
+					</div>
+				))
+			}
+		</div>
+	</section>
+</DesignB>
