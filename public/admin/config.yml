@@ -1,0 +1,25 @@
+backend:
+  name: github
+  repo: geunskoo/pnu-epic-poc
+  branch: main
+  base_url: https://pnu-epic-poc-oauth.geunskoo.workers.dev
+  auth_endpoint: auth
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "publications"
+    label: "논문 목록"
+    folder: "src/content/publications"
+    create: true
+    slug: "{{year}}-{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "제목", name: "title", widget: "string" }
+      - { label: "저자", name: "authors", widget: "list" }
+      - { label: "저널", name: "journal", widget: "string" }
+      - { label: "연도", name: "year", widget: "number", value_type: "int" }
+      - { label: "링크", name: "link", widget: "string", required: false }
+      - { label: "본문", name: "body", widget: "markdown", required: false }

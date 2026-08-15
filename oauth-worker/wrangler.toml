@@ -1,0 +1,6 @@
+name = "pnu-epic-poc-oauth"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+
+[vars]
+GITHUB_CLIENT_ID = "Ov23lixWbH2e3aJ48cGQ"
