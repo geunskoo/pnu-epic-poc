@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+
+const publications = (await getCollection('publications')).sort(
+  (a, b) => b.data.year - a.data.year
+);
+---
+
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>논문 목록 (POC)</title>
+	</head>
+	<body>
+		<h1>논문 목록 (POC — Content Collections 검증용 더미 데이터)</h1>
+		<ul>
+			{publications.map((pub) => (
+				<li>
+					<strong>{pub.data.title}</strong> ({pub.data.year})<br />
+					{pub.data.authors.join(', ')} — {pub.data.journal}
+					{pub.data.link && (
+						<>
+							{' '}
+							<a href={pub.data.link}>link</a>
+						</>
+					)}
+				</li>
+			))}
+		</ul>
+	</body>
+</html>
